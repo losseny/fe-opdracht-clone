@@ -1,7 +1,7 @@
 ---
 name: User Story Template
 about: Een uniform manier om userstories te schrijven.
-title: User Story
+title: Als {user rol} wil ik {functionaliteit}, zodat  {doel}
 labels: ''
 assignees: ''
 
@@ -20,5 +20,4 @@ assignees: ''
 ## Definiton of Done
 
 
-## Tasks 
-
+## Tasks
