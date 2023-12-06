@@ -1,6 +1,6 @@
 import {css, html, LitElement} from "lit";
 
-export class PageHeaderElement extends LitElement {
+export class PageHeaderComponent extends LitElement {
     render() {
         return html`
             <header id="page-header">
@@ -52,4 +52,4 @@ export class PageHeaderElement extends LitElement {
     }
 }
 
-window.customElements.define('pageheader-component', PageHeaderElement);
+window.customElements.define('page-header-component', PageHeaderComponent);

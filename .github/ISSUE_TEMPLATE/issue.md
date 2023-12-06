@@ -1,13 +1,13 @@
 ---
-name: User Story Template
+name: UserModel Story Main
 about: Een uniform manier om userstories te schrijven.
-title: User Story
+title: UserModel Story
 labels: ''
 assignees: ''
 
 ---
 
-# User Story
+# UserModel Story
 
 ## Description
 

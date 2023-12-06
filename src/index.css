@@ -1,29 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+    --color-background: #f6f6f9;
+    --text-color: #fff;
+    --KPN-groen: #00C300;
+    --KPN-wit: #00AAFF;
+    --KPN-grijs: #E2E2E2;
+    --KPN-zwart: #1E1E1E;
+    --KPN-licht-zwart: rgba(31, 30, 30, 0.94);
 }
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+  height: 100vh;
+  position: relative;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
+h1 {
+  color: #00C300;
+  font-size: 36px;
+  text-align: center;
 }
+
+h2 {
+  color: #1E1E1E;
+  font-weight: normal;
+  font-size: 20px;
+}
+
+#router-outlet {
+    height: 100vh;
+}
+

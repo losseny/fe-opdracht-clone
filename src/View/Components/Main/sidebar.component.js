@@ -1,26 +1,9 @@
 import {css, html, LitElement} from "lit";
-import UserService from "../../../service/user-service.js";
-const userRole = "manager";
-export class SidebarElement extends LitElement {
+export class SidebarComponent extends LitElement {
 
     constructor() {
         super();
-        this.userService = new UserService();
     }
-
-    connectedCallback() {
-        super.connectedCallback();
-        this.checkUserRole()
-    }
-
-    checkUserRole() {
-        this.userService.getCurrentUserRole().then((role) => {
-            if (role !== userRole) {
-                this.renderRoot.querySelector('#mobilitygroup').style.display = "none";
-            }
-        })
-    }
-
 
     render() {
         return html`
@@ -33,17 +16,7 @@ export class SidebarElement extends LitElement {
                 <ul class="nav_list">
                     <li class="nav-links">
                         <a href="/homepage" class="nav-link">
-                            <span class="sidebar-list-text">Registratie</span>
-                        </a>
-                    </li>
-                    <li class="nav-links hover">
-                        <a href="/verbruik" class="nav-link">
-                            <span class="sidebar-list-text">Duurzaamheid</span>
-                        </a>
-                    </li>
-                    <li class="nav-links hover" id="mobilitygroup">
-                        <a href="/" class="nav-link">
-                            <span class="sidebar-list-text">Mobility group</span>
+                            <span class="sidebar-list-text">Test</span>
                         </a>
                     </li>
                 </ul>
@@ -141,4 +114,4 @@ export class SidebarElement extends LitElement {
     }
 }
 
-window.customElements.define('sidebar-component', SidebarElement);
+window.customElements.define('sidebar-component', SidebarComponent);
