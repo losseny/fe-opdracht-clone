@@ -3,7 +3,7 @@ name: User Story Template
 about: Een uniform manier om userstories te schrijven.
 title: user title
 labels: user story
-assignees: losseny
+assignees: ''
 
 ---
 
