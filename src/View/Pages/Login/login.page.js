@@ -1,7 +1,7 @@
 import {css, html, LitElement} from "lit";
 import UserService from "../../../Core/Services/user.service.js";
 
-export class LoginComponent extends LitElement {
+export class LoginPage extends LitElement {
     static get properties() {
         return {
             nameField: { type: String },
@@ -188,4 +188,4 @@ export class LoginComponent extends LitElement {
     }
 }
 
-window.customElements.define('login-component', LoginComponent);
+window.customElements.define('login-page', LoginPage);

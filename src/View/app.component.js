@@ -9,4 +9,4 @@ export class AppComponent extends LitElement {
     }
 }
 
-window.customElements.define('app-component', AppComponent);
+window.customElements.define('app-page', AppComponent);
