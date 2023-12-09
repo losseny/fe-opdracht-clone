@@ -1,13 +1,13 @@
 ---
-name: UserModel Story Main
+name: User Story Template
 about: Een uniform manier om userstories te schrijven.
-title: UserModel Story
-labels: ''
+title: Als {user rol} wil ik {functionaliteit}, zodat  {doel}
+labels: user story
 assignees: ''
 
 ---
 
-# UserModel Story
+# User Story
 
 ## Description
 
@@ -20,5 +20,4 @@ assignees: ''
 ## Definiton of Done
 
 
-## Tasks 
-
+## Tasks
