@@ -1,13 +1,14 @@
 ---
 name: User Story Template
 about: Een uniform manier om userstories te schrijven.
-title: Als {user rol} wil ik {functionaliteit}, zodat  {doel}
+title: user title
 labels: user story
 assignees: ''
 
 ---
 
 # User Story
+Als {user rol} wil ik {functionaliteit}, zodat  {doel}
 
 ## Description
 
