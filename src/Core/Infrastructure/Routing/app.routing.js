@@ -5,5 +5,5 @@ export const router = new Router(outlet);
 
 router.setRoutes([
     {path: '/', component: 'login-page'},
-    {path: '/home', component: 'app-page'},
+    {path: '/Home', component: 'home-page'},
 ]);
