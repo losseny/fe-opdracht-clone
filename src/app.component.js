@@ -13,8 +13,6 @@ export class AppComponent extends LitElement {
     constructor() {
         super();
         this.userService = userServiceInstance;
-        console.log(`ctor`)
-
     }
     connectedCallback() {
         this.userService.whoAmISubject

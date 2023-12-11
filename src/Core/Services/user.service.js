@@ -30,7 +30,6 @@ class UserService {
 
         this.whoAmISubject = new BehaviorSubject(false)
         this.initialize()
-        console.log(`UserService ctor`)
     }
 
 
@@ -56,10 +55,7 @@ class UserService {
             const user = this.users.find(user => user.name === username);
             let loggedIn = false;
             if (user && user.password === password) {
-                console.log(`login`)
-                console.log(this.whoAmISubject)
                 this.whoAmISubject.next(true)
-                console.log(this.whoAmISubject)
                 loggedIn = true
 
                 this.database.save(WHO_AM_I_KEY, user)
