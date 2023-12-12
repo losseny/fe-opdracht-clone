@@ -28,7 +28,7 @@ export class AppComponent extends LitElement {
 
 
     renderContent() {
-        if (this.show) {
+        if (true) {
             return html`<header-component></header-component>`
         }
     }
