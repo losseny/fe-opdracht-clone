@@ -15,7 +15,7 @@ export const JourneyPageStyles = [
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 10px;
+        line-height: 4rem;
       }
       
       .button-wrapper {

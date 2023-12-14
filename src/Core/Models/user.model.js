@@ -1,12 +1,12 @@
-
-
 /**
  * Class representing a user model.
  */
 export class UserModel {
-    id; // Private field, not accessible outside the class
+    id;
     name;
     password;
+    journeys = []
+    routes = []
     static currentId = 0;
 
     /**

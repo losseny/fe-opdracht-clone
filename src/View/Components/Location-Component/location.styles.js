@@ -7,4 +7,15 @@ export const LocationStyles = css `
     font-weight: bolder;
     text-align: center;
   }
+  
+  .button-wrapper {
+    margin-top: 1rem;
+  }
+  .content-wrap {
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+  }
+  .input-wrap {
+    max-height: 100px !important;
+  }
 `

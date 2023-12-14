@@ -5,5 +5,9 @@ const globalStyle = css([Object.values(cssRules).map(rule =>
     rule.cssText).join('\n')])
 export const HeaderStyles = [
     globalStyle,
-    css``
+    css`
+        //.collapse:not(.show) {
+        //  display: block;
+        //}
+    `
 ];
