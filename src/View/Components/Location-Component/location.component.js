@@ -104,7 +104,7 @@ export class LocationComponent extends LitElement {
         }
     }
     #routesMapper() {
-        return this._consumer.value.routes.map(r => r.routeName);
+        return this._consumer.value?.routes.map(r => r.routeName);
     }
 
     // TODO finish this
