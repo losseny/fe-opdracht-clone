@@ -1,7 +1,7 @@
 import {html, LitElement} from "lit";
-import {LocationComponent} from "../Location-Component/location.component.js";
 import {DropDownStyles} from "./drop-down.styles.js";
-import {repeat} from "rxjs";
+import {EvenEmitter} from "../../../Core/Infrastructure/Util/even-emitter.js";
+import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
 
 export class DropDownComponent extends LitElement {
 
@@ -12,14 +12,28 @@ export class DropDownComponent extends LitElement {
         }
     }
 
+    constructor() {
+        super();
+        this.emitter = new EvenEmitter(this)
+    }
+
+    #selectValueChangeHandler(event) {
+        this.emitter.eventKey = EventKeys.SELECT_CHANGED_KEY
+        this.emitter.emit({
+            change: {
+                option: event.target.value,
+            }
+        })
+    }
+
 
     render() {
         return html`
             <div class="dropdown">
-                <select name="cars" id="cars">
+                <select name="cars" id="cars" >
                     ${
                         this.options.map(option => html`
-                            <option value=${option}">${option}</option>
+                            <option value=${option}" @click="${this.#selectValueChangeHandler}">${option}</option>
                         `)
                     }
                 </select>

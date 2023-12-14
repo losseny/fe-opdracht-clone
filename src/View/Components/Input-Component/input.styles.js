@@ -7,20 +7,19 @@ export const InputStyles = [
     globalStyle,
     css`
       input {
-        width: 170px;
         height: 40px;
         font-size: 16px;
-        padding-left: 10px;
         font-family: "Poppins", serif;
         border: none;
         border-radius: 5px;
         background-color: #f4f4f4;
-        margin: 1rem;
+        text-align: center;
       }
       .input-wrap {
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
         align-items: center;
+        gap: 1rem;
       }
     `
 ]
