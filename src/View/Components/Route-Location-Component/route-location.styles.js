@@ -1,6 +1,6 @@
 import {css} from "lit";
 
-export const LocationStyles = css `
+export const RouteLocationStyles = css `
   h1, h2 {
     color: #00C300 !important;
     font-size: 46px;

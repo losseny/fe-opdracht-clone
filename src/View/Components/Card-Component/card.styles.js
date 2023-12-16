@@ -23,6 +23,14 @@ export const CardStyles = [
       .card-footer {
         text-align: center;
       }
+      
+      .card-content {
+        text-align: center;
+        flex-direction: column;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
       @media screen and (min-width: 992px) {
       }
