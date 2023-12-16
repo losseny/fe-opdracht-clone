@@ -3,7 +3,7 @@ import {HeaderComponent} from "/src/View/Components/Header-Component/header.comp
 import {LoginPage} from "/src/View/Pages/Login/login.page.js";
 import {HomePage} from "/src/View/Pages/Home/home.page.js";
 import {JourneyPage} from "/src/View/Pages/Journey/journey.page.js";
-import {LocationComponent} from "/src/View/Components/Location-Component/location.component.js";
+import {RouteLocationComponent} from "/src/View/Components/Route-Location-Component/route-location.component.js";
 import {CardComponent} from "/src/View/Components/Card-Component/card.component.js";
 import {InputComponent} from "/src/View/Components/Input-Component/input.component.js";
 import {DropDownComponent} from "/src/View/Components/Drop-down-Component/drop-down.component.js";
@@ -14,4 +14,5 @@ import {JourneyDetailComponent} from "/src/View/Components/Journey-Detail/journe
 import {ButtonComponent} from "/src/View/Components/Button-component/button.component.js";
 import {ProfilePage} from "/src/View/Pages/Profile/profile.page.js";
 import {RouteComponent} from "/src/View/Components/Route-Component/route-component.js";
+import {LocationComponent} from "/src/View/Components/Location-Component/location.component.js";
 import {ProfileSettingsComponent} from "/src/View/Components/Profile-Settings-Component/profile-settings.component.js";

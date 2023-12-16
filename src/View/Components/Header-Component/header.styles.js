@@ -6,8 +6,8 @@ const globalStyle = css([Object.values(cssRules).map(rule =>
 export const HeaderStyles = [
     globalStyle,
     css`
-        //.collapse:not(.show) {
-        //  display: block;
-        //}
+        .navbar{
+          margin-bottom: 2rem;
+        }
     `
 ];

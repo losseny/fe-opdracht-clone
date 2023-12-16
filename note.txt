@@ -1,0 +1,8 @@
+                <div class="button-wrapper" slot="footer">
+                    <button-component @click="${this.#goBack}">
+                        ${this.nextName ?? html`<span>Terug</span>`}
+                    </button-component>
+                    <button-component @click="${this.#locationEvent}">
+                        ${this.nextName ? html`<span>Opslaan</span>` : html`<span>Volgende</span>`}
+                    </button-component>
+                </div>
