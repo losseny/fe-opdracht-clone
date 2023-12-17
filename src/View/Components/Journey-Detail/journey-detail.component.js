@@ -24,6 +24,7 @@ export class JourneyDetailComponent extends LitElement {
         this.locationService.routeDistance.subscribe(y => this.distance = y)
         this.emitter = new EvenEmitter(this);
         this.favorite = false;
+        this.journeyType = 'prive'
     }
 
     #JourneyDetailEvent() {

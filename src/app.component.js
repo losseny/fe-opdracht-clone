@@ -53,7 +53,7 @@ export class AppComponent extends LitElement {
     #provideContextData() {
         this.userService.currentLoggedInUser().then(user => {
             this._provider.setValue({
-                routes: user.routes
+                user: user
             })
         }).catch(e => console.log(e))
     }

@@ -62,6 +62,7 @@ export class RouteComponent extends LitElement {
                 }
             }
         })
+        Router.go('/home')
     }
     #goBack() {
         Router.go('/home')

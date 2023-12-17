@@ -1,9 +1,5 @@
 import {html, LitElement} from "lit";
 import {RouteLocationStyles} from "./route-location.styles.js";
-import {EvenEmitter} from "../../../Core/Infrastructure/Util/even-emitter.js";
-import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
-import {ContextConsumer} from "@lit/context";
-import {AppContexts} from "../../../Core/Infrastructure/Contexts/app.contexts.js";
 
 export class RouteLocationComponent extends LitElement {
 

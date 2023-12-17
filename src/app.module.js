@@ -13,6 +13,7 @@ import {EventKeys} from "/src/Core/Infrastructure/Util/app-key.env.js";
 import {JourneyDetailComponent} from "/src/View/Components/Journey-Detail/journey-detail.component.js";
 import {ButtonComponent} from "/src/View/Components/Button-component/button.component.js";
 import {ProfilePage} from "/src/View/Pages/Profile/profile.page.js";
+import {TableComponent} from "/src/View/Components/Table-component/table.component.js";
 import {RouteComponent} from "/src/View/Components/Route-Component/route-component.js";
 import {LocationComponent} from "/src/View/Components/Location-Component/location.component.js";
 import {ProfileSettingsComponent} from "/src/View/Components/Profile-Settings-Component/profile-settings.component.js";

@@ -15,7 +15,7 @@ export class LocationComponent extends LitElement {
             zipCode: {type: String},
             houseNumber: {type: String},
             addition: {type: String},
-            find: {type: Object},
+            route: {type: Object},
         }
     }
     constructor() {
@@ -30,16 +30,15 @@ export class LocationComponent extends LitElement {
         this.addEventListener(EventKeys.SELECT_CHANGED_KEY, this.#selectChangedEventHandler)
         this.addEventListener(EventKeys.INPUT_CHANGED_KEY, this.#inputEventHandler)
 
-        this.find = {
-            detail: this.emitter.eventKey = this.title === 'vertrek' ? this._journeyConsumer.value.departure : this._journeyConsumer.value.destination
+        this.route = {
+            detail: this.emitter.eventKey = this.title === 'vertrek' ? this._journeyConsumer.value?.departure : this._journeyConsumer.value?.destination
         }
-        console.log(this.find)
 
-        this.streetName = this.find?.streetName;
-        this.city = this.find?.city;
-        this.zipCode = this.find?.zipCode;
-        this.houseNumber = this.find?.houseNumber;
-        this.addition = this.find?.addition;
+        this.streetName = this.route?.streetName;
+        this.city = this.route?.city;
+        this.zipCode = this.route?.zipCode;
+        this.houseNumber = this.route?.houseNumber;
+        this.addition = this.route?.addition;
     }
 
     disconnectedCallback() {
@@ -50,12 +49,11 @@ export class LocationComponent extends LitElement {
     }
 
     #routesMapper() {
-        return this._appConsumer.value?.routes.map(r => r.routeName);
+        return this._appConsumer.value?.user?.routes.map(r => r.routeName);
     }
 
-    // TODO finish this
     #selectChangedEventHandler(event) {
-        this.find = this._appConsumer.value.routes.find(r => {
+        this.route = this._appConsumer.value?.user.routes.find(r => {
             return event.detail.data.change.option.split('\"')[0] === r.routeName
         });
         this.requestUpdate()
@@ -92,11 +90,11 @@ export class LocationComponent extends LitElement {
         this.emitter.eventKey = this.title === 'vertrek' ? EventKeys.LOCATION_DEPART_KEY : EventKeys.LOCATION_DESTINATION_KEY
         this.emitter.emit({
             location: {
-                streetName: this.find.detail?.streetName ?? this.streetName,
-                city: this.find.detail?.city ?? this.city,
-                zipCode: this.find.detail?.zipCode ?? this.zipCode,
-                houseNumber: this.find.detail?.houseNumber ?? this.houseNumber,
-                addition: this.find.detail?.addition ?? this.addition,
+                streetName: this.route.detail?.streetName ?? this.streetName,
+                city: this.route.detail?.city ?? this.city,
+                zipCode: this.route.detail?.zipCode ?? this.zipCode,
+                houseNumber: this.route.detail?.houseNumber ?? this.houseNumber,
+                addition: this.route.detail?.addition ?? this.addition,
             }
         })
     }
@@ -105,7 +103,7 @@ export class LocationComponent extends LitElement {
     render() {
         const routes = this.#routesMapper();
         let show = html``;
-        if (routes) {
+        if (routes && routes.length > 0) {
             show = html`
                 <div>
                     <card-component style="width: 100%; margin-bottom: 2rem; text-align: center;" title="Kies een locatie">
@@ -122,11 +120,11 @@ export class LocationComponent extends LitElement {
                 <div>
                     <route-location-component 
                             title="${this.title}" 
-                            streetName="${this.find?.detail?.streetName}"
-                            city="${this.find?.detail?.city}"
-                            addition="${this.find?.detail?.addition}"
-                            houseNumber="${this.find?.detail?.houseNumber}"
-                            zipCode="${this.find?.detail?.zipCode}"
+                            streetName="${this.route?.detail?.streetName}"
+                            city="${this.route?.detail?.city}"
+                            addition="${this.route?.detail?.addition}"
+                            houseNumber="${this.route?.detail?.houseNumber}"
+                            zipCode="${this.route?.detail?.zipCode}"
                     >
                         <div class="button-wrapper" slot="footer">
                             <button-component @click="${this.#goBack}">

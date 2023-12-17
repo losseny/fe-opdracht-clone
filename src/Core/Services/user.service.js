@@ -118,7 +118,6 @@ class UserService {
                 actionResult: oldLength < newLength
             };
         }).then(r => {
-            console.log(r)
             this.#updateUserInfo(r)
             return r.actionResult;
         })
@@ -127,7 +126,6 @@ class UserService {
         if (userInfo.actionResult) {
             this.fetchUsers().then(users => {
                 users = [...users.filter(user => user.id !== userInfo.user.id), userInfo.user]
-                console.log(users)
                 this.saveUsers(users).then(_ => {
                     this.#updateCurrentUserData(userInfo.user)
                 })
