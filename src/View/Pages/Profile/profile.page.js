@@ -6,7 +6,6 @@ export class ProfilePage extends LitElement {
     render() {
         return html`
             <div class="profile-content">
-
                 <slot></slot>
             </div>
         `

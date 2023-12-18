@@ -1,6 +1,7 @@
 import {html, LitElement} from "lit";
-import {TransportOptionComponent} from "../Transport-Options/transport-option.component.js";
 import {TableStyles} from "./table.styles.js";
+import {EvenEmitter} from "../../../Core/Infrastructure/Util/even-emitter.js";
+import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
 
 export class TableComponent extends LitElement {
 
@@ -14,7 +15,18 @@ export class TableComponent extends LitElement {
     }
     constructor() {
         super();
-        this.headers = ['Datum', 'Type', "Vervoer", 'Afstand', 'Vertrek', 'Bestemming', 'Favoriet']
+        this.headers = ['No.', 'Datum', 'Type', "Vervoer", 'Afstand', 'Vertrek', 'Bestemming', 'Favoriet']
+        this.emitter = new EvenEmitter(this);
+    }
+
+    #tableDataEvent(event) {
+        const values = event.target.parentElement.innerText.split('\t')
+        this.emitter.eventKey = EventKeys.TABLE_DATA_EVENT_KEY
+        this.emitter.emit({
+            row: {
+                id: values[0],
+            }
+        })
     }
 
     render() {
@@ -31,8 +43,9 @@ export class TableComponent extends LitElement {
                 </thead>
                 <tbody>
                    ${
-                        this.dataSource.map(data => html`
-                            <tr>
+                        this.dataSource?.map((data, index) => html`
+                            <tr @click="${this.#tableDataEvent}">
+                                <td>${(data.id ?? index) + 1}</td>
                                 <td>${data.date}</td>
                                 <td>${data.journeyType ?? "prive"}</td>
                                 <td>${data.transportOption}</td>
@@ -45,7 +58,6 @@ export class TableComponent extends LitElement {
                     }
                 </tbody>
             </table>
-            
         `
     }
 }

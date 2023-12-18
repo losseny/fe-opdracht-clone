@@ -59,8 +59,10 @@ export class AppComponent extends LitElement {
     }
     render() {
         return html`
-            ${html`${this.renderContent()}`}
-            <slot></slot>
+            <div>
+                ${html`${this.renderContent()}`}
+                <slot></slot>
+            </div>
         `
     }
 }

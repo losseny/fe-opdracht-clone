@@ -26,6 +26,9 @@ export class HeaderComponent extends LitElement {
                                 <a class="nav-link active" aria-current="page" href="/journey/transport">Registratie</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/favorites">Favorieten</a>
+                            </li>                            
+                            <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="/profile/settings">Profiel</a>
                             </li>
                         </ul>

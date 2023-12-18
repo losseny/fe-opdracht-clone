@@ -6,6 +6,7 @@ export const router = new Router(outlet);
 router.setRoutes([
     {path: '/', component: 'login-page'},
     {path: '/home', component: 'home-page'},
+    {path: '/favorites', component: 'favorite-routes-page'},
     {
         path: '/journey', component: 'journey-page',
         children: [

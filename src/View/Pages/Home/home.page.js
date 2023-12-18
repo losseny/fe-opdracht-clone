@@ -8,7 +8,6 @@ export class HomePage extends LitElement {
     static get properties() {
         return {
             dataSource: { type: Array },
-            headers: { type: Array },
         }
     }
 
@@ -18,7 +17,10 @@ export class HomePage extends LitElement {
     }
     connectedCallback() {
         super.connectedCallback();
-        this.dataSource = this._appConsumer.value?.user.journeys
+        this.dataSource = this._appConsumer?.value?.user?.journeys
+        if (!this.dataSource) {
+            window.location.reload()
+        }
     }
 
     render() {

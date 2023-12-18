@@ -8,6 +8,7 @@ export class EventKeys {
     static JOURNEY_DETAIL_EVENT_KEY = "journey_detail_event-key"
     static JOURNEY_EVENT_KEY = "journey_event-key"
     static ROUTE_EVENT_KEY = "route_event-key"
+    static TABLE_DATA_EVENT_KEY = "table-data_event-key"
     static ROUTE_DETAIL_EVENT_KEY = "route_detail_event-key"
 }
 export class ContextKeys {
