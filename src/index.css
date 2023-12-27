@@ -9,13 +9,13 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-    --color-background: #f6f6f9;
-    --text-color: #fff;
-    --KPN-groen: #00C300;
-    --KPN-wit: #00AAFF;
-    --KPN-grijs: #E2E2E2;
-    --KPN-zwart: #1E1E1E;
-    --KPN-licht-zwart: rgba(31, 30, 30, 0.94);
+  --color-background: #f6f6f9;
+  --text-color: #fff;
+  --KPN-groen: #00C300;
+  --KPN-wit: #00AAFF;
+  --KPN-grijs: #E2E2E2;
+  --KPN-zwart: #1E1E1E;
+  --KPN-licht-zwart: rgba(31, 30, 30, 0.94);
 }
 
 *,
@@ -23,6 +23,7 @@
 ::before {
   box-sizing: border-box;
 }
+
 
 
 body {

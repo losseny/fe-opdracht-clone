@@ -1,15 +1,15 @@
 import {html, LitElement} from "lit";
-import {JourneyPageStyles} from "./journey-page.styles.js";
-import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
-import {Router} from "@vaadin/router";
+import { JourneyPageStyles } from "./journey-page.styles.js";
+import { EventKeys } from "../../../Core/Infrastructure/Util/app-key.env.js";
+import { Router } from "@vaadin/router";
+import {EvenEmitter} from "../../../Core/Infrastructure/Util/event-emitter.js";
 import {bingMapsService} from "../../../Core/Infrastructure/Location/bing-maps.service.js";
-import {WindowService} from "../../../Core/Infrastructure/Util/window.service.js";
 import {ContextProvider} from "@lit/context";
 import {AppContexts} from "../../../Core/Infrastructure/Contexts/app.contexts.js";
-import {EvenEmitter} from "../../../Core/Infrastructure/Util/even-emitter.js";
 
 export class JourneyPage extends LitElement {
 
+    // de css
     static styles = JourneyPageStyles
 
     static get properties() {
@@ -27,41 +27,36 @@ export class JourneyPage extends LitElement {
 
     constructor() {
         super();
-        this.windowService = new WindowService();
-        this.windowService.windowObserver.subscribe(y =>
-            this.smallDevice = y
-        )
         this._provider = new ContextProvider(this, {context: AppContexts.journeyContext});
         this.locationService = bingMapsService;
         this.subscription = this.locationService.routeDistance.subscribe(y => this.distance = y);
         this.emitter = new EvenEmitter(this);
     }
 
+
     connectedCallback() {
         super.connectedCallback();
-        this.addEventListener(EventKeys.VEHICLE_OPTIONS_EVENT_KEY, this.#vehicleOptionsHandler)
+
+        // We add an event-listener for a custom event with the key VEHICLE_OPTIONS_EVENT_KEY
         this.addEventListener(EventKeys.LOCATION_DESTINATION_KEY, this.#locationDestinationEventHandler)
         this.addEventListener(EventKeys.LOCATION_DEPART_KEY, this.#locationDepartureEventHandler)
+        this.addEventListener(EventKeys.VEHICLE_OPTIONS_EVENT_KEY, this.#vehicleOptionsHandler);
         this.addEventListener(EventKeys.JOURNEY_DETAIL_EVENT_KEY, this.#journeyDetailEventHandler)
+
     }
 
     disconnectedCallback() {
-        this.removeEventListener(EventKeys.VEHICLE_OPTIONS_EVENT_KEY, this.#vehicleOptionsHandler);
+        // we delete the events
         this.removeEventListener(EventKeys.LOCATION_DESTINATION_KEY, this.#locationDestinationEventHandler)
         this.removeEventListener(EventKeys.LOCATION_DEPART_KEY, this.#locationDepartureEventHandler)
+        this.removeEventListener(EventKeys.VEHICLE_OPTIONS_EVENT_KEY, this.#vehicleOptionsHandler);
         this.removeEventListener(EventKeys.JOURNEY_DETAIL_EVENT_KEY, this.#journeyDetailEventHandler)
+
+        // we unsubscribe
         this.subscription.unsubscribe();
+
         super.disconnectedCallback();
     }
-
-
-
-    #vehicleOptionsHandler(event) {
-        event.stopPropagation();
-        this.transportOption = event.detail.targetVehicleOptionName;
-        this.#provideContextData()
-        Router.go('/journey/location/vertrek');
-    };
 
     #locationDestinationEventHandler(event) {
         try {
@@ -79,7 +74,6 @@ export class JourneyPage extends LitElement {
             console.log(e)
         }
     };
-
     #formatAddress(address) {
         return {
             address: `${address.streetName}, ${address.zipCode} ${address.city}`
@@ -91,6 +85,14 @@ export class JourneyPage extends LitElement {
         this.#provideContextData()
         Router.go('/journey/location/bestemming')
     };
+    #provideContextData() {
+        this._provider.setValue({
+            transportOption: this.transportOption,
+            departure: this.departure,
+            destination: this.destination,
+        })
+    }
+
     #journeyDetailEventHandler(event) {
         event.stopPropagation()
         this.emitter.eventKey = EventKeys.JOURNEY_EVENT_KEY
@@ -99,14 +101,27 @@ export class JourneyPage extends LitElement {
                 transportOption: this.transportOption,
                 departure: this.departure,
                 destination: this.destination,
-                distance: this.distance,
+                distance: event.detail.data.meta.distance,
                 journeyType: event.detail.data.meta.journeyType,
                 date: event.detail.data.meta.date,
                 favorite: event.detail.data.meta.favorite
             }
         })
-        Router.go('/home')
     };
+
+    // Privé methode om het VEHICLE_OPTIONS_EVENT_KEY event af te handelen
+    #vehicleOptionsHandler(event) {
+        event.stopPropagation();
+
+        // we voegen de naam van de transportoptei
+        this.transportOption = event.detail.targetVehicleOptionName;
+
+        this.#provideContextData()
+
+        // We gebruiken Routing om bij te navigeren
+        Router.go('/journey/location/vertrek');
+    };
+
     transportOptions() {
         return [
             "OV",
@@ -119,13 +134,6 @@ export class JourneyPage extends LitElement {
             "Taxi",
             "Pool car"
         ];
-    }
-    #provideContextData() {
-        this._provider.setValue({
-            transportOption: this.transportOption,
-            departure: this.departure,
-            destination: this.destination,
-        })
     }
 
     render() {
@@ -163,6 +171,7 @@ export class JourneyPage extends LitElement {
             </form>
         `
     }
+
 }
 
 window.customElements.define('journey-page', JourneyPage);

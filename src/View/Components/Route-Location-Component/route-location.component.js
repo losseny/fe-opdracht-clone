@@ -22,25 +22,25 @@ export class RouteLocationComponent extends LitElement {
                 <slot></slot>
                 <div class="content-wrap">
                     <div class="input-wrap">
-                        <input-component id="streetName" style="margin: 0.4rem 7rem 0 7rem;" value="${this.streetName}" placeholder="Maanplein" name="streetName">
+                        <input-component id="streetName" style="margin: 0.4rem 7rem 0 7rem;" value="${this.streetName}" placeholder="Wilhelminakade" name="streetName">
                             <span slot="label">Straatnaam</span>
                         </input-component>
                     </div>
 
                     <div class="input-wrap">
-                        <input-component id="city" style="margin: 0.4rem 7rem 0 7rem;" placeholder="Den Haag" value="${this.city}" name="city">
+                        <input-component id="city" style="margin: 0.4rem 7rem 0 7rem;" placeholder="Rotterdam" value="${this.city}" name="city">
                             <span slot="label">Plaatsnaam</span>
                         </input-component>
                     </div>
 
                     <div class="input-wrap">
-                        <input-component id="zipCode" style="margin: 0.4rem 7rem 0 7rem;" placeholder="2516CK" value="${this.zipCode}" name="zipCode">
+                        <input-component id="zipCode" style="margin: 0.4rem 7rem 0 7rem;" placeholder="3072AP" value="${this.zipCode}" name="zipCode">
                             <span slot="label">Postcode</span>
                         </input-component>
                     </div>
 
                     <div class="input-wrap">
-                        <input-component id="houseNumber" style="margin: 0.4rem 7rem 0 7rem;" placeholder="55" value="${this.houseNumber}" name="houseNumber">
+                        <input-component id="houseNumber" style="margin: 0.4rem 7rem 0 7rem;" placeholder="123" value="${this.houseNumber}" name="houseNumber">
                             <span slot="label">Huisnummer</span>
                         </input-component>
                     </div>

@@ -1,6 +1,6 @@
 import {html, LitElement} from "lit";
 import {DropDownStyles} from "./drop-down.styles.js";
-import {EvenEmitter} from "../../../Core/Infrastructure/Util/even-emitter.js";
+import {EvenEmitter} from "../../../Core/Infrastructure/Util/event-emitter.js";
 import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
 
 export class DropDownComponent extends LitElement {

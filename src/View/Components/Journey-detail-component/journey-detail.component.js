@@ -3,7 +3,7 @@ import {JourneyDetailStyles} from "./journey-detail.styles.js";
 import {bingMapsService} from "../../../Core/Infrastructure/Location/bing-maps.service.js";
 import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
 import {Router} from "@vaadin/router";
-import {EvenEmitter} from "../../../Core/Infrastructure/Util/even-emitter.js";
+import {EvenEmitter} from "../../../Core/Infrastructure/Util/event-emitter.js";
 
 export class JourneyDetailComponent extends LitElement {
 
@@ -14,24 +14,27 @@ export class JourneyDetailComponent extends LitElement {
             distance: { type: Number },
             journeyType: { type: String },
             date: {type: Date},
-            favorite: { type: Boolean }
+            favorite: { type: Boolean },
+            retour: { type: Boolean },
         }
     }
 
     constructor() {
         super();
         this.locationService = bingMapsService;
-        this.locationService.routeDistance.subscribe(y => this.distance = y)
         this.emitter = new EvenEmitter(this);
         this.favorite = false;
         this.journeyType = 'prive'
     }
 
     #JourneyDetailEvent() {
+        if (this.retour) {
+            this.distance = (Number(this.distance).toFixed(1) * 2)
+        }
         this.emitter.eventKey = EventKeys.JOURNEY_DETAIL_EVENT_KEY
         this.emitter.emit({
             meta: {
-                distance: this.distance,
+                distance: Number(this.distance),
                 journeyType: this.journeyType,
                 date: this.date ?? new Date(),
                 favorite: this.favorite,
@@ -57,6 +60,7 @@ export class JourneyDetailComponent extends LitElement {
     connectedCallback() {
         super.connectedCallback();
         this.addEventListener(EventKeys.INPUT_CHANGED_KEY, this.#inputEventHandler)
+        this.locationService.routeDistance.subscribe(y => this.distance = y)
     }
 
     disconnectedCallback() {
@@ -69,7 +73,13 @@ export class JourneyDetailComponent extends LitElement {
     }
 
     render() {
-        // make component of radio buttons
+        if (!this.distance) {
+            return html`
+                <card-component style="margin-top: 7rem; padding: 3rem">
+                    <h1>Loading.......</h1>
+                </card-component>
+            `
+        }
         return html`
             <card-component title="Reis Beweging Detail">
                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -90,6 +100,10 @@ export class JourneyDetailComponent extends LitElement {
                         <div>
                             <label>Favoriet</label>
                             <input type="checkbox" @click="${() => this.favorite = !this.favorite}">
+                        </div>
+                        <div>
+                            <label>Retour</label>
+                            <input type="checkbox" @click="${() => this.retour = !this.retour}">
                         </div>
                     </div>
                     <input-component id="kilometers" placeholder="12" type="number" value="${this.distance}" name="kilometers">

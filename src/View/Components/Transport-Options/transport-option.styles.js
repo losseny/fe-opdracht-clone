@@ -7,6 +7,12 @@ export const TransportOptionStyles = css`
     grid-template-columns: 1fr 1fr 1fr;
     gap: 30px;
   }
+    h1, h2 {
+        color: #00C300 !important;
+        font-size: 46px;
+        font-weight: bolder;
+        text-align: center;
+    }
   
   .options-wrapper {
     padding: 2rem 3rem;

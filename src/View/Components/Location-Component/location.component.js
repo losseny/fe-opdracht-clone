@@ -1,7 +1,7 @@
 import {html, LitElement} from "lit";
 import {Router} from "@vaadin/router";
 import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
-import {EvenEmitter} from "../../../Core/Infrastructure/Util/even-emitter.js";
+import {EvenEmitter} from "../../../Core/Infrastructure/Util/event-emitter.js";
 import {AppContexts} from "../../../Core/Infrastructure/Contexts/app.contexts.js";
 import {ContextConsumer} from "@lit/context";
 
@@ -115,7 +115,7 @@ export class LocationComponent extends LitElement {
             `
         }
         return html`
-            <div style="border: #1E1E1E 3px solid">
+            <div>
                 ${show}
                 <div>
                     <route-location-component 

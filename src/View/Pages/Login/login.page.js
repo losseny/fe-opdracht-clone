@@ -86,7 +86,7 @@ export class LoginPage extends LitElement {
         this.userService.login(username, password).then((detail) => {
             if (detail) {
                 e.target.ownerDocument.activeElement.shadowRoot.getElementById("errortext").style.display = "none";
-                Router.go("/Home")
+                Router.go("/home")
             } else {
                 e.target.ownerDocument.activeElement.shadowRoot.getElementById("errortext").style.display = null;
             }

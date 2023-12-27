@@ -2,6 +2,7 @@ import {DatabaseService} from "../Infrastructure/Persistence/database.service.js
 import {UserModel} from "../Models/user.model.js";
 import {BehaviorSubject} from "rxjs";
 import {DataBaseKeys} from "../Infrastructure/Util/app-key.env.js";
+import {EmissionService} from "./emission.service.js";
 
 class UserService {
 
@@ -27,6 +28,7 @@ class UserService {
         }
 
         this.whoAmISubject = new BehaviorSubject(false)
+        this.emissionService = new EmissionService(this)
         this.initialize()
     }
 
@@ -97,12 +99,31 @@ class UserService {
     }
     registerNewJourneys(journey) {
         return this.currentLoggedInUser().then(r => {
-            const oldLength = r.journeys.length;
-            const newLength = r.journeys.push(journey);
+            return this.emissionService.calculateEmission(journey).then(e => {
+                journey['emission'] = e;
+                const oldLength = r.journeys.length;
+                const newLength = r.journeys.push(journey);
+                return {
+                    user: r,
+                    actionResult: oldLength < newLength
+                };
+            })
+        }).then(r => {
+            this.#updateUserInfo(r)
+            return r.actionResult;
+        })
+    }
+
+    registerNewCronJourney(journey) {
+        return this.currentLoggedInUser().then(r => {
+            delete journey["date"]
+            const set = new Set([...r.cronJourneys.map(t => JSON.stringify(t)), JSON.stringify(journey)])
+            r.cronJourneys = [...set.values()].map(e => JSON.parse(e));
             return {
                 user: r,
-                actionResult: oldLength < newLength
+                actionResult: true
             };
+
         }).then(r => {
             this.#updateUserInfo(r)
             return r.actionResult;

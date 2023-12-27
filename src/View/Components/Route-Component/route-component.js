@@ -1,6 +1,6 @@
 import {html, LitElement} from "lit";
 import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
-import {EvenEmitter} from "../../../Core/Infrastructure/Util/even-emitter.js";
+import {EvenEmitter} from "../../../Core/Infrastructure/Util/event-emitter.js";
 import {Router} from "@vaadin/router";
 
 export class RouteComponent extends LitElement {
@@ -14,6 +14,7 @@ export class RouteComponent extends LitElement {
             houseNumber: {type: String},
             addition: {type: String},
         }
+
     }
 
     constructor() {
@@ -64,6 +65,7 @@ export class RouteComponent extends LitElement {
         })
         Router.go('/home')
     }
+
     #goBack() {
         Router.go('/home')
     }

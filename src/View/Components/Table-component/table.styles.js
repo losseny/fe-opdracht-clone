@@ -13,9 +13,7 @@ export const TableStyles = css`
         border: 1px solid #ddd;
         padding: 8px;
     }
-
-    table tbody tr:nth-child(even){background-color: #f2f2f2;}
-
+    
     table tr:hover {background-color: #ddd;}
 
     table thead th {

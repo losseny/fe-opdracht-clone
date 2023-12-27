@@ -1,6 +1,6 @@
 import {html, LitElement} from "lit";
 import {TableStyles} from "./table.styles.js";
-import {EvenEmitter} from "../../../Core/Infrastructure/Util/even-emitter.js";
+import {EvenEmitter} from "../../../Core/Infrastructure/Util/event-emitter.js";
 import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
 
 export class TableComponent extends LitElement {
@@ -15,7 +15,7 @@ export class TableComponent extends LitElement {
     }
     constructor() {
         super();
-        this.headers = ['No.', 'Datum', 'Type', "Vervoer", 'Afstand', 'Vertrek', 'Bestemming', 'Favoriet']
+        this.headers = ['No.', 'Datum', 'Type', "Vervoer", 'Afstand', "Uitstoot (CO2)", 'Vertrek', 'Bestemming', 'Favoriet']
         this.emitter = new EvenEmitter(this);
     }
 
@@ -30,6 +30,28 @@ export class TableComponent extends LitElement {
     }
 
     render() {
+        let tableData = html`
+            <td style="text-align: center" colspan="${this.headers.length}">Geen reisbewegingen gemaakt</td>
+        `
+        if (this.dataSource && this.dataSource?.length > 0) {
+            tableData = html`
+                ${
+                    this.dataSource?.map((data, index) => html`
+                        <tr @click="${this.#tableDataEvent}">
+                            <td>${(data.id ?? index) + 1}</td>
+                            <td>${new Date(data.date).toLocaleDateString()}</td>
+                            <td>${data.journeyType ?? "prive"}</td>
+                            <td>${data.transportOption}</td>
+                            <td>${data.distance}</td>
+                            <td>${data.emission}</td>
+                            <td>${data.departure.streetName} ${data.departure.houseNumber}</td>
+                            <td>${data.destination.streetName} ${data.destination.houseNumber}</td>
+                            <td>${data.favorite ? '✅' : '❌' }</td>
+                        </tr>
+                    `)
+                }
+            `
+        }
         return html`
             <table>
                 <thead>
@@ -42,20 +64,7 @@ export class TableComponent extends LitElement {
                     </tr>
                 </thead>
                 <tbody>
-                   ${
-                        this.dataSource?.map((data, index) => html`
-                            <tr @click="${this.#tableDataEvent}">
-                                <td>${(data.id ?? index) + 1}</td>
-                                <td>${data.date}</td>
-                                <td>${data.journeyType ?? "prive"}</td>
-                                <td>${data.transportOption}</td>
-                                <td>${data.distance}</td>
-                                <td>${data.departure.streetName} ${data.departure.houseNumber}</td>
-                                <td>${data.destination.streetName} ${data.destination.houseNumber}</td>
-                                <td>${data.favorite ? '✅' : '❌' }</td>
-                            </tr>
-                        `)
-                    }
+                    ${tableData}
                 </tbody>
             </table>
         `

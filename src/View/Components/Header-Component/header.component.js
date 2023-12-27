@@ -1,4 +1,4 @@
-import {html, LitElement} from "lit";
+import { html, LitElement} from "lit";
 import {HeaderStyles} from "./header.styles.js";
 
 export class HeaderComponent extends LitElement {
@@ -25,9 +25,6 @@ export class HeaderComponent extends LitElement {
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="/journey/transport">Registratie</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/favorites">Favorieten</a>
-                            </li>                            
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="/profile/settings">Profiel</a>
                             </li>

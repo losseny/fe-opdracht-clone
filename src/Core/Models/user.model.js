@@ -1,12 +1,15 @@
+
+
 /**
  * Class representing a user model.
  */
 export class UserModel {
-    id;
+    id; // Private field, not accessible outside the class
     name;
     password;
     journeys = []
     routes = []
+    cronJourneys = []
     static currentId = 0;
 
     /**
