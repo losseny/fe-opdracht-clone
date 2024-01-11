@@ -1,16 +1,14 @@
-
+import {Base} from "./base.model.js";
 
 /**
  * Class representing a user model.
  */
-export class UserModel {
-    id; // Private field, not accessible outside the class
+export class User extends Base {
     name;
     password;
     journeys = []
     routes = []
     cronJourneys = []
-    static currentId = 0;
 
     /**
      * Create a UserModel.
@@ -18,14 +16,23 @@ export class UserModel {
      * @param {string} password - The user's password.
      */
     constructor(name, password) {
+        super();
         this.name = name;
         this.password = password;
-        this.id = UserModel.#generateId();
     }
 
-    // Static method to generate a user ID
-    static #generateId() {
-        UserModel.currentId += 1;
-        return UserModel.currentId;
+    static address(routes) {
+        let index = 0;
+        if (!routes) {
+            return
+        }
+        if (routes.length > 1) {
+            index = routes.length - 1;
+        }
+
+        return {
+            departure: `${routes[0].locations[0].streetName} ${routes[0].locations[0].houseNumber}`,
+            destination: `${routes[index].locations[1].streetName} ${routes[index].locations[1].houseNumber}`,
+        }
     }
 }

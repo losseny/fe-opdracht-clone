@@ -9,6 +9,7 @@ export class EventKeys {
     static ROUTE_EVENT_KEY = "route_event-key"
     static LOCATION_DEPART_KEY = "location_depart-key"
     static LOCATION_DESTINATION_KEY = "destination_depart-key"
+    static LOCATION_EVENT_KEY = "location-event-key"
     static TABLE_DATA_EVENT_KEY = "table-data_event-key"
 }
 

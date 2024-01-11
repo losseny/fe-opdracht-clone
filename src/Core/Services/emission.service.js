@@ -18,17 +18,22 @@ export class EmissionService {
 
 
     calculateEmission(journey) {
+        return Promise.resolve(
+            journey.routes.map(j => this.#emissionType(j)).reduce((a, c) => a + c, 0)
+        );
+    }
 
+    #emissionType(route) {
         let emission;
 
-        switch (journey.transportOption) {
+        switch (route.transportation.name) {
             // Grouping zero-emission transport options
-            case "OV (Trein/Metro/Tram)":
-            case "Ov Fiets":
-            case "Fiets":
-            case "Elektrische Deelauto":
-                emission = 0;
-                break;
+            //case "OV (Trein/Metro/Tram)":
+            //case "Ov Fiets":
+            //case "Fiets":
+            //case "Elektrische Deelauto":
+            //    emission = 0;
+            //    break;
 
             // Handling other transport options
             case "Benzine Eigen Auto":
@@ -36,8 +41,8 @@ export class EmissionService {
             case "Diesel Eigen Auto":
             case "Service Auto":
             case "Taxi":
-                const emissionFactor = EmissionService.EMISSION_FACTORS[journey.transportOption];
-                emission = this.#emissionCalculation(emissionFactor, journey.distance);
+                const emissionFactor = EmissionService.EMISSION_FACTORS[route.transportation.name];
+                emission = this.#emissionCalculation(emissionFactor, route.distance);
                 break;
 
             // Default case for unexpected transport options
@@ -45,7 +50,7 @@ export class EmissionService {
                 emission = 0;
         }
 
-        return Promise.resolve(emission);
+        return emission
     }
 
     calculateEmissionStatistics() {
@@ -84,7 +89,7 @@ export class EmissionService {
             }
             return r.journeys.filter(func)
                 .map(m => m.emission)
-                .reduce((a, c) => a + c)
+                .reduce((a, c) => a + c, 0)
         })
     }
 
@@ -92,6 +97,11 @@ export class EmissionService {
 
     #emissionCalculation(emissionFactor, kilometer) {
         // Error handling for invalid inputs
+        if (typeof kilometer === 'string' && isNaN(Number(kilometer))) {
+            return 0;
+        } else {
+            kilometer = Number(kilometer)
+        }
         if (kilometer <= 0) {
             return 0;
         }

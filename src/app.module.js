@@ -3,14 +3,15 @@ import {HeaderComponent} from "/src/View/Components/Header-Component/header.comp
 import {LoginPage} from "/src/View/Pages/Login/login.page.js";
 import {HomePage} from "/src/View/Pages/Home/home.page.js";
 import {JourneyDetailComponent} from "/src/View/Components/Journey-detail-component/journey-detail.component.js";
-import {TransportOptionItemComponent} from "/src/View/Components/Transport-Options-Item/transport-option-item.component.js";
 import {CardComponent} from "/src/View/Components/Card-Component/card.component.js";
 import {ButtonComponent} from "/src/View/Components/Button-Component/button.component.js";
 import {InputComponent} from "/src/View/Components/Input-Component/input.component.js";
 import {JourneyPage} from "/src/View/Pages/Journey/journey.page.js";
+import {TransportOptionsComponent} from "/src/View/Components/Transport-options/transport-options.component.js";
+import {JourneyComponent} from "/src/View/Components/Journey-Component/journey.component.js";
 import {LocationComponent} from "/src/View/Components/Location-Component/location.component.js";
 import {RouteLocationComponent} from "/src/View/Components/Route-Location-Component/route-location.component.js";
-import {TableComponent} from "/src/View/Components/Table-component/table.component.js";
+import {TableComponent} from "/src/View/Components/Journey-Table-component/table.component.js";
 import {FavoriteRoutesComponent} from "/src/View/Components/Favorite-routes/favorite-routes.component.js";
 import {DialogComponent} from "/src/View/Components/Dialog-component/dialog.component.js";
 import {ProfileSettingsComponent} from "/src/View/Components/Profile-Settings-Component/profile-settings.component.js";
@@ -18,4 +19,3 @@ import {RouteComponent} from "/src/View/Components/Route-Component/route-compone
 import {ProfilePage} from "/src/View/Pages/Profile/profile.page.js";
 import {EventKeys} from "/src/Core/Infrastructure/Util/app-key.env.js";
 import {DropDownComponent} from "/src/View/Components/Drop-down-Component/drop-down.component.js";
-import {TransportOptionComponent} from "/src/View/Components/Transport-Options/transport-option.component.js";

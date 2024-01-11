@@ -6,6 +6,9 @@ import {EvenEmitter} from "../../../Core/Infrastructure/Util/event-emitter.js";
 import {bingMapsService} from "../../../Core/Infrastructure/Location/bing-maps.service.js";
 import {ContextProvider} from "@lit/context";
 import {AppContexts} from "../../../Core/Infrastructure/Contexts/app.contexts.js";
+import {Route} from "../../../Core/Models/route.model.js";
+import {journeyServiceInstance} from "../../../Core/Services/journey.service.js";
+import {Journey} from "../../../Core/Models/journey.model.js";
 
 export class JourneyPage extends LitElement {
 
@@ -21,7 +24,14 @@ export class JourneyPage extends LitElement {
             distance: { type: Number },
             journeyType: { type: String },
             date: {type: Date},
-            favorite: { type: Boolean }
+            favorite: { type: Boolean },
+            registering: {type: Boolean},
+
+
+
+
+            journeys: { type: Array }
+
         }
     }
 
@@ -29,8 +39,18 @@ export class JourneyPage extends LitElement {
         super();
         this._provider = new ContextProvider(this, {context: AppContexts.journeyContext});
         this.locationService = bingMapsService;
-        this.subscription = this.locationService.routeDistance.subscribe(y => this.distance = y);
+        this.subscription = this.locationService.routeDistance.subscribe(y => {
+            this.distance = y;
+            console.log(this.distance)
+        });
         this.emitter = new EvenEmitter(this);
+        this.journeyService = journeyServiceInstance;
+
+
+        // ===================================================
+
+        this.#initialize()
+
     }
 
 
@@ -43,6 +63,8 @@ export class JourneyPage extends LitElement {
         this.addEventListener(EventKeys.VEHICLE_OPTIONS_EVENT_KEY, this.#vehicleOptionsHandler);
         this.addEventListener(EventKeys.JOURNEY_DETAIL_EVENT_KEY, this.#journeyDetailEventHandler)
 
+        // ===================================================
+        this.addEventListener(EventKeys.LOCATION_EVENT_KEY, this.#locationEventHandler)
     }
 
     disconnectedCallback() {
@@ -51,6 +73,10 @@ export class JourneyPage extends LitElement {
         this.removeEventListener(EventKeys.LOCATION_DEPART_KEY, this.#locationDepartureEventHandler)
         this.removeEventListener(EventKeys.VEHICLE_OPTIONS_EVENT_KEY, this.#vehicleOptionsHandler);
         this.removeEventListener(EventKeys.JOURNEY_DETAIL_EVENT_KEY, this.#journeyDetailEventHandler)
+
+        // ===================================================
+        this.removeEventListener(EventKeys.LOCATION_EVENT_KEY, this.#locationEventHandler)
+
 
         // we unsubscribe
         this.subscription.unsubscribe();
@@ -95,18 +121,15 @@ export class JourneyPage extends LitElement {
 
     #journeyDetailEventHandler(event) {
         event.stopPropagation()
-        this.emitter.eventKey = EventKeys.JOURNEY_EVENT_KEY
+        this.emitter.eventKey = EventKeys.JOURNEY_EVENT_KEY;
         this.emitter.emit({
-            journey: {
-                transportOption: this.transportOption,
-                departure: this.departure,
-                destination: this.destination,
-                distance: event.detail.data.meta.distance,
+            journey: new Journey({
+                routes: this.journeys,
                 journeyType: event.detail.data.meta.journeyType,
                 date: event.detail.data.meta.date,
                 favorite: event.detail.data.meta.favorite
-            }
-        })
+            })
+        });
     };
 
     // Privé methode om het VEHICLE_OPTIONS_EVENT_KEY event af te handelen
@@ -136,31 +159,84 @@ export class JourneyPage extends LitElement {
         ];
     }
 
+    #register(path) {
+        Router.go(path)
+        this.registering = true
+    }
+
+    /////////////////////////////////////////////////////////////////////// ////
+
+    #locationEventHandler(event) {
+        event.stopPropagation()
+        this.#initialize()
+        this.addRoutes(event.detail.data.location).then(_ => {
+            this._provider.setValue({
+                data: [...this.journeys]
+            })
+            Router.go('/journey/registration');
+        })
+    }
+    #initialize() {
+        if (!this.journeys) {
+            this.journeys = [];
+        }
+    }
+    addRoutes(data) {
+        if (this.journeys.length <= 0)  {
+            this.journeys.push(new Route([data]))
+            return Promise.resolve();
+        }
+
+        let lastRoute = this.journeys[this.journeys.length - 1];
+        if (lastRoute.locations.length === 1) {
+            lastRoute.locations.push(data);
+        } else {
+            lastRoute = new Route([lastRoute.locations[lastRoute.locations.length - 1], data])
+            this.journeys.push(lastRoute)
+        }
+        const transport = this.journeyService.findTransportTypeByTransport(lastRoute.locations[1].transport);
+        lastRoute.transportation = transport;
+        return this.#distanceRequest({
+            route: lastRoute,
+            transportOptionType: transport.mode
+        }).then(d => lastRoute.distance = d)
+    }
+
+    #distanceRequest(journey) {
+        if (!journey) {
+            return Promise.resolve(null);
+        }
+        const route = {
+            departure: this.#formatAddress(journey.route.locations[0]),
+            destination: this.#formatAddress(journey.route.locations[1]),
+            type: journey.transportOptionType
+        }
+        return bingMapsService.calculateDistance(route)
+    }
+
     render() {
-        if (this.smallDevice) {
+        if (!this.registering) {
             return html`
-                <card-component>
-                    <div class="content-body">
-                        <div>
-                            <h3>Kies een voertuig</h3>
-                            <drop-down-component .options="${this.transportOptions()}"></drop-down-component>
+                <div class="content-wrap">
+                    <card-component title="Reisbeweging">
+                        <div class="journey-options">
+                            <button-component @click="${() => this.#register('/journey/registration')}">
+                                <box-icon name='trip'></box-icon>
+                                <span>Nieuwe reisbeweging</span>
+                            </button-component>
+                            <button-component @click="${() => Router.go("/profile/favorites")}">
+                                <box-icon name='repeat'></box-icon>
+                                <span>Herhaal reisbeweging</span>
+                            </button-component>
                         </div>
-                        <div class="location-wrapper">
-                            <div>
-                                <h3>Begin punt</h3>
-                                <location-component></location-component>
-                            </div>
-                            <div>
-                                <h3>Bestemming</h3>
-                                <location-component></location-component>
-                            </div>
+                        <div class="button-wrapper" slot="footer">
+                            <button-component>
+                                <span>Annuleer</span>
+                            </button-component>
                         </div>
-                    </div>
-                    <div class="button-wrapper">
-                        <button class="btn">opslaan</button>
-                        <button class="btn">favoriet</button>
-                    </div>
-                </card-component>
+                    </card-component>
+                </div>
+
             `
         }
         return html`

@@ -4,6 +4,7 @@ import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
 import {EvenEmitter} from "../../../Core/Infrastructure/Util/event-emitter.js";
 import {AppContexts} from "../../../Core/Infrastructure/Contexts/app.contexts.js";
 import {ContextConsumer} from "@lit/context";
+import {Location} from "../../../Core/Models/location.model.js";
 
 export class LocationComponent extends LitElement {
 
@@ -12,10 +13,11 @@ export class LocationComponent extends LitElement {
             style: { type: String },
             streetName: { type: String },
             city: {type: String},
+            transport: {type: String},
             zipCode: {type: String},
             houseNumber: {type: String},
             addition: {type: String},
-            route: {type: Object},
+            routeLocation: {type: Object},
         }
     }
     constructor() {
@@ -27,23 +29,17 @@ export class LocationComponent extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        this.addEventListener(EventKeys.SELECT_CHANGED_KEY, this.#selectChangedEventHandler)
+        this.addEventListener(EventKeys.VEHICLE_OPTION_EVENT_KEY, this.#vehicleChangedEventHandler)
         this.addEventListener(EventKeys.INPUT_CHANGED_KEY, this.#inputEventHandler)
+        this.addEventListener(EventKeys.SELECT_CHANGED_KEY, this.#selectChangedEventHandler)
 
-        this.route = {
-            detail: this.emitter.eventKey = this.title === 'vertrek' ? this._journeyConsumer.value?.departure : this._journeyConsumer.value?.destination
-        }
-
-        this.streetName = this.route?.streetName;
-        this.city = this.route?.city;
-        this.zipCode = this.route?.zipCode;
-        this.houseNumber = this.route?.houseNumber;
-        this.addition = this.route?.addition;
     }
 
     disconnectedCallback() {
-        this.removeEventListener(EventKeys.SELECT_CHANGED_KEY, this.#selectChangedEventHandler);
+        this.removeEventListener(EventKeys.VEHICLE_OPTION_EVENT_KEY, this.#vehicleChangedEventHandler);
         this.removeEventListener(EventKeys.INPUT_CHANGED_KEY, this.#inputEventHandler)
+        this.removeEventListener(EventKeys.SELECT_CHANGED_KEY, this.#selectChangedEventHandler)
+
 
         super.disconnectedCallback();
     }
@@ -52,15 +48,8 @@ export class LocationComponent extends LitElement {
         return this._appConsumer.value?.user?.routes.map(r => r.routeName);
     }
 
-    #selectChangedEventHandler(event) {
-        this.route = this._appConsumer.value?.user.routes.find(r => {
-            return event.detail.data.change.option.split('\"')[0] === r.routeName
-        });
-        this.requestUpdate()
-    }
-    onBeforeEnter(location) {
-        const paths = location.pathname.split('/');
-        this.title = paths[paths.length - 1]
+    #vehicleChangedEventHandler(event) {
+        this.transport = event.detail.data.transport;
     }
 
     #goBack() {
@@ -87,51 +76,47 @@ export class LocationComponent extends LitElement {
     }
 
     #locationEvent() {
-        this.emitter.eventKey = this.title === 'vertrek' ? EventKeys.LOCATION_DEPART_KEY : EventKeys.LOCATION_DESTINATION_KEY
-        this.emitter.emit({
-            location: {
-                streetName: this.route.detail?.streetName ?? this.streetName,
-                city: this.route.detail?.city ?? this.city,
-                zipCode: this.route.detail?.zipCode ?? this.zipCode,
-                houseNumber: this.route.detail?.houseNumber ?? this.houseNumber,
-                addition: this.route.detail?.addition ?? this.addition,
-            }
+        const location = new Location({
+            streetName: this.routeLocation?.streetName ?? this.streetName,
+            city: this.routeLocation?.city ?? this.city,
+            zipCode: this.routeLocation?.zipCode ?? this.zipCode,
+            houseNumber: this.routeLocation?.houseNumber ?? this.houseNumber,
+            addition: this.routeLocation?.addition ?? this.addition,
+            transport: this.routeLocation?.transport ?? this.transport,
         })
+        this.emitter.eventKey = EventKeys.LOCATION_EVENT_KEY;
+        this.emitter.emit({
+            location
+        })
+    }
+
+    #selectChangedEventHandler(event) {
+        this.routeLocation = this._appConsumer.value?.user.routes.find(r => {
+            return event.detail.data.change.option.split('\"')[0] === r.routeName
+        }).detail;
+
+        this.requestUpdate()
     }
 
 
     render() {
-        const routes = this.#routesMapper();
-        let show = html``;
-        if (routes && routes.length > 0) {
-            show = html`
-                <div>
-                    <card-component style="width: 100%; margin-bottom: 2rem; text-align: center;" title="Kies een locatie">
-                        <div>
-                            <drop-down-component .options="${routes}"></drop-down-component>
-                        </div>
-                    </card-component>
-                </div>
-            `
-        }
         return html`
             <div>
-                ${show}
                 <div>
-                    <route-location-component 
-                            title="${this.title}" 
-                            streetName="${this.route?.detail?.streetName}"
-                            city="${this.route?.detail?.city}"
-                            addition="${this.route?.detail?.addition}"
-                            houseNumber="${this.route?.detail?.houseNumber}"
-                            zipCode="${this.route?.detail?.zipCode}"
+                    <route-location-component
+                            streetName="${this.routeLocation?.streetName}"
+                            city="${this.routeLocation?.city}"
+                            addition="${this.routeLocation?.addition}"
+                            houseNumber="${this.routeLocation?.houseNumber}"
+                            zipCode="${this.routeLocation?.zipCode}"
+                            .routeOptions="${this.#routesMapper()}"
                     >
                         <div class="button-wrapper" slot="footer">
                             <button-component @click="${this.#goBack}">
                                 <span>Terug</span>
                             </button-component>
                             <button-component @click="${this.#locationEvent}">
-                                <span>Volgende</span>
+                                <span>Opslaan</span>
                             </button-component>
                         </div>
                     </route-location-component>
@@ -139,6 +124,7 @@ export class LocationComponent extends LitElement {
             </div>
         `
     }
+
 }
 
 

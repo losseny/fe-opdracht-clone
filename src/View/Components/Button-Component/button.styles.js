@@ -13,8 +13,9 @@ export const ButtonStyles = css`
     background:  #00C300;
     color: white;
     border-radius: 12px;
-    min-width: 140px !important;
+    min-width: 140px;
     margin: 1rem 2rem;
+      display: inline-block;
   }
 
   .btn:active, .btn:hover, .btn:focus, [role="button"][aria-pressed="true"] {

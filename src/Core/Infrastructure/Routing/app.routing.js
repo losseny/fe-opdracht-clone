@@ -9,10 +9,10 @@ router.setRoutes([
     {
         path: '/journey', component: 'journey-page',
         children: [
+            {path: '/registration', component: 'journey-component'},
             {path: '/transport', component: 'transport-option-component'},
-            {path: '/location/vertrek', component: 'location-component'},
-            {path: '/location/bestemming', component: 'location-component'},
-            {path: '/location/detail', component: 'journey-detail-component'},
+            {path: '/location', component: 'location-component'},
+            {path: '/detail', component: 'journey-detail-component'},
         ]
     },
     {

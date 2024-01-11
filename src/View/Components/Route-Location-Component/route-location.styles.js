@@ -18,4 +18,9 @@ export const RouteLocationStyles = css `
   .input-wrap {
     max-height: 100px !important;
   }
+    #select-location{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 `

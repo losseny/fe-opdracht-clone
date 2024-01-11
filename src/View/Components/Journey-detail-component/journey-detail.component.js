@@ -31,18 +31,19 @@ export class JourneyDetailComponent extends LitElement {
         if (this.retour) {
             this.distance = (Number(this.distance).toFixed(1) * 2)
         }
-        this.emitter.eventKey = EventKeys.JOURNEY_DETAIL_EVENT_KEY
+        this.emitter.eventKey = EventKeys.JOURNEY_DETAIL_EVENT_KEY;
+
         this.emitter.emit({
             meta: {
                 distance: Number(this.distance),
                 journeyType: this.journeyType,
-                date: this.date ?? new Date(),
+                date: this.date ?? new Date().toISOString().split('T')[0],
                 favorite: this.favorite,
             }
         })
     }
 
-    #inputEventHandler(event){
+    #inputEventHandler(event) {
         switch (event.detail.data.change.name) {
             case 'date': this.date = event.detail.data.change.value;
                 break
@@ -106,9 +107,10 @@ export class JourneyDetailComponent extends LitElement {
                             <input type="checkbox" @click="${() => this.retour = !this.retour}">
                         </div>
                     </div>
-                    <input-component id="kilometers" placeholder="12" type="number" value="${this.distance}" name="kilometers">
-                        <span slot="label">Kilometers</span>
-                    </input-component>
+                    <div>
+                        <div>123 KM</div>
+                        <div>23234 CO2</div>
+                    </div>
                 </div>
                 <div class="button-wrapper" slot="footer">
                     <button-component @click="${this.#goBack}">

@@ -11,46 +11,14 @@ export const JourneyPageStyles = [
             font-weight: bolder;
             text-align: center;
         }
+        .journey-options {
+            display: flex;
+            flex-direction: column;
+            margin: 4rem;
+        }
         .content-wrap {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            line-height: 4rem;
-        }
-
-        .button-wrapper {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-            margin-top: 10px;
-        }
-
-        .btn {
-            border: none;
-            text-transform: uppercase;
-            font-size: 15px;
-            padding: 10px 30px;
-            clear: both;
-            font-weight: bold;
-            height: auto;
-            line-height: normal;
-            background:  #00C300;
-            color: white;
-        }
-
-        @media screen and (min-width: 992px) {
-            .location-wrapper {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-around;
-                padding: 10px;
-                margin: 2rem;
-            }
-            .button-wrapper {
-                align-items: center;
-                justify-content: center;
-                gap: 1rem;
-            }
+            display: grid;
+            place-items: center;
         }
     `
 ];

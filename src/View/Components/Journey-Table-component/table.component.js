@@ -2,6 +2,7 @@ import {html, LitElement} from "lit";
 import {TableStyles} from "./table.styles.js";
 import {EvenEmitter} from "../../../Core/Infrastructure/Util/event-emitter.js";
 import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
+import {Journey} from "../../../Core/Models/journey.model.js";
 
 export class TableComponent extends LitElement {
 
@@ -15,7 +16,7 @@ export class TableComponent extends LitElement {
     }
     constructor() {
         super();
-        this.headers = ['No.', 'Datum', 'Type', "Vervoer", 'Afstand', "Uitstoot (CO2)", 'Vertrek', 'Bestemming', 'Favoriet']
+        this.headers = ['No.', 'Datum', 'Type', 'Afstand', "Uitstoot (CO2)", 'Vertrek', 'Bestemming', 'Favoriet']
         this.emitter = new EvenEmitter(this);
     }
 
@@ -23,11 +24,22 @@ export class TableComponent extends LitElement {
         const values = event.target.parentElement.innerText.split('\t')
         this.emitter.eventKey = EventKeys.TABLE_DATA_EVENT_KEY
         this.emitter.emit({
-            row: {
-                id: values[0],
-            }
+            tableRowData: this.dataSource[values[0] - 1]
         })
     }
+
+    address(routes) {
+        let index = 0;
+        if (routes.length > 1) {
+            index = routes.length - 1;
+        }
+
+        return {
+            departure: `${routes[0].locations[0].streetName} ${routes[0].locations[0].houseNumber}`,
+            destination: `${routes[index].locations[1].streetName} ${routes[index].locations[1].houseNumber}`,
+        }
+    }
+
 
     render() {
         let tableData = html`
@@ -38,14 +50,13 @@ export class TableComponent extends LitElement {
                 ${
                     this.dataSource?.map((data, index) => html`
                         <tr @click="${this.#tableDataEvent}">
-                            <td>${(data.id ?? index) + 1}</td>
+                            <td>${index + 1}</td>
                             <td>${new Date(data.date).toLocaleDateString()}</td>
                             <td>${data.journeyType ?? "prive"}</td>
-                            <td>${data.transportOption}</td>
-                            <td>${data.distance}</td>
+                            <td>${Journey.distanceMeter(data.routes)}</td>
                             <td>${data.emission}</td>
-                            <td>${data.departure.streetName} ${data.departure.houseNumber}</td>
-                            <td>${data.destination.streetName} ${data.destination.houseNumber}</td>
+                            <td>${this.address(data.routes).departure}</td>
+                            <td>${this.address(data.routes).destination}</td>
                             <td>${data.favorite ? '✅' : '❌' }</td>
                         </tr>
                     `)

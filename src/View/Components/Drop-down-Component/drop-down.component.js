@@ -28,17 +28,32 @@ export class DropDownComponent extends LitElement {
 
 
     render() {
-        return html`
-            <div class="dropdown">
-                <select name="cars" id="cars" >
+        let view  = html`
+            <select name="cars" id="cars" disabled="${true}">
+                <option>Geen opties</option>
+            </select>
+        `
+        if (this.options && this.options?.length > 0) {
+            view = html`
+                <select name="cars" id="cars">
                     ${
                         this.options.map(option => html`
                             <option value=${option}" @click="${this.#selectValueChangeHandler}">${option}</option>
-                        `)
-                    }
+                    `)}
                 </select>
+        
+            `
+        }
+
+        return html`
+            <div class="dropdown">
+                <label for="cars">
+                    <slot name="label"></slot>
+                </label>
+                ${view}
             </div>
         `
     }
 }
+
 window.customElements.define('drop-down-component', DropDownComponent);

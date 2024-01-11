@@ -6,6 +6,8 @@ import {EvenEmitter} from "../../../Core/Infrastructure/Util/event-emitter.js";
 import {EmissionService} from "../../../Core/Services/emission.service.js";
 import {journeyServiceInstance} from "../../../Core/Services/journey.service.js";
 import {userServiceInstance} from "../../../Core/Services/user.service.js";
+import {User} from "../../../Core/Models/user.model.js";
+import {Journey} from "../../../Core/Models/journey.model.js";
 
 export class FavoriteRoutesComponent extends LitElement {
 
@@ -30,7 +32,8 @@ export class FavoriteRoutesComponent extends LitElement {
         super.connectedCallback();
         this.addEventListener(EventKeys.TABLE_DATA_EVENT_KEY, this.#tableDataEventHandler)
 
-        this.journeyService.fetchAllUniqueJourneys().then(r => this.dataSource = r)
+        this.journeyService.fetchAllUniqueJourneys()
+            .then(r => this.dataSource = r)
     }
 
     firstUpdated(_changedProperties) {
@@ -43,7 +46,9 @@ export class FavoriteRoutesComponent extends LitElement {
     }
 
     #tableDataEventHandler(event) {
-        this.dialogData = this.dataSource[event.detail.data.row.id - 1]
+        console.log(event.detail.data.tableRowData)
+        console.log(this.dataSource)
+        this.dialogData = event.detail.data.tableRowData
         this.dialog = this.renderRoot.lastElementChild.shadowRoot.querySelector('#dialog');
         this.dialog.showModal();
     }
@@ -51,31 +56,25 @@ export class FavoriteRoutesComponent extends LitElement {
     #repeatJourney() {
         this.emitter.eventKey = EventKeys.JOURNEY_EVENT_KEY
         this.emitter.emit({
-            journey: {
-                transportOption: this.dialogData.transportOption,
-                departure: this.dialogData.departure,
-                destination: this.dialogData.destination,
+            journey: new Journey({
+                routes: this.dialogData.routes,
                 emission: this.dialogData.emission,
-                distance: this.dialogData.distance,
                 journeyType: this.dialogData.journeyType,
                 date: new Date(),
                 favorite: true
-            }
+            })
         })
     }
 
     #cronJourneyEvent() {
         this.emitter.eventKey = EventKeys.CRON_JOURNEY_EVENT_KEY
         this.emitter.emit({
-            journey: {
-                transportOption: this.dialogData.transportOption,
-                departure: this.dialogData.departure,
-                destination: this.dialogData.destination,
+            journey: new Journey({
+                routes: this.dialogData.routes,
                 emission: this.dialogData.emission,
-                distance: this.dialogData.distance,
                 journeyType: this.dialogData.journeyType,
                 favorite: true
-            }
+            })
         })
     }
     #closeDialog() {
@@ -93,17 +92,17 @@ export class FavoriteRoutesComponent extends LitElement {
                         <div style="display: flex; flex-direction: row; justify-content: space-around">
                             <div>
                                 <h3>Vertrek</h3>
-                                <p>${this.dialogData?.departure.streetName} ${this.dialogData?.departure.houseNumber}</p>
+                                <p>${User.address(this.dialogData?.routes)?.departure}</p>
                             </div>
                             <div>
                                 <h3>Kilometers</h3>
-                                <p>${this.dialogData?.distance}</p>
+                                <p>${Journey.distanceMeter(this.dialogData?.routes)}</p>
                             </div>
                         </div>
                         <div style="display: flex; flex-direction: row; justify-content: space-around">
                             <div>
                                 <h3>Bestemming</h3>
-                                <p>${this.dialogData?.destination.streetName} ${this.dialogData?.destination.houseNumber}</p>
+                                <p>${User.address(this.dialogData?.routes)?.destination}</p>
                             </div>
                             <div>
                                 <h3>CO₂-uitstoot</h3>

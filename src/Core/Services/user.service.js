@@ -1,5 +1,5 @@
 import {DatabaseService} from "../Infrastructure/Persistence/database.service.js";
-import {UserModel} from "../Models/user.model.js";
+import {User} from "../Models/user.model.js";
 import {BehaviorSubject} from "rxjs";
 import {DataBaseKeys} from "../Infrastructure/Util/app-key.env.js";
 import {EmissionService} from "./emission.service.js";
@@ -42,10 +42,10 @@ class UserService {
 
     _seedUsers() {
         let users = [
-            new UserModel("Lewis Hamilton",   "Geheim123!" ),
-            new UserModel("test1",   "admin" ),
-            new UserModel("test2",   "admin" ),
-            new UserModel("test3",   "admin" ),
+            new User("Lewis Hamilton",   "Geheim123!" ),
+            new User("test1",   "admin" ),
+            new User("test2",   "admin" ),
+            new User("test3",   "admin" ),
         ];
 
         this.saveUsers(users).then(result => users = result)

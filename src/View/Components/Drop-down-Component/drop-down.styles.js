@@ -2,9 +2,11 @@ import {css} from "lit";
 
 export const DropDownStyles = css`
   .dropdown {
-    max-width: 250px;
     position: relative;
-    margin: 2rem 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
   }
 
   select {

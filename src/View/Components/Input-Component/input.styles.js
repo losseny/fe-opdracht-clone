@@ -14,6 +14,8 @@ export const InputStyles = [
         border-radius: 5px;
         background-color: #f4f4f4;
         text-align: center;
+          width: 100%;
+          max-width: 340px !important;
       }
       .input-wrap {
         display: flex;
