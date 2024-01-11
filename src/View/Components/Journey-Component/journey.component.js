@@ -3,6 +3,8 @@ import {JourneyStyles} from "./journey.styles.js";
 import {Router} from "@vaadin/router";
 import {ContextConsumer} from "@lit/context";
 import {AppContexts} from "../../../Core/Infrastructure/Contexts/app.contexts.js";
+import {User} from "../../../Core/Models/user.model.js";
+import {Journey} from "../../../Core/Models/journey.model.js";
 
 export class JourneyComponent extends LitElement {
 
@@ -17,21 +19,6 @@ export class JourneyComponent extends LitElement {
         super();
         this._journeyConsumer = new ContextConsumer(this, {context: AppContexts.journeyContext});
     }
-    #distance(routes) {
-        if (!routes) {
-            return 0;
-        }
-        return routes.distance
-    }
-
-    #distanceMeter(routes) {
-        if (!routes) {
-            return 0;
-        }
-        return routes.map(r => Number(r.distance))
-            .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-    }
-
 
     render() {
         return html`
@@ -52,7 +39,7 @@ export class JourneyComponent extends LitElement {
                             <div class="PLEQOe IeZuN"></div>
                         </div>
                     </div>
-                    <button class="edit" @click="${() => Router.go('/journey/location')}">
+                    <button class="edit" @click="${() => Router.go('/journey/meta')}">
                         <div class="itinerary">
                             <div class="event">
                                 <div class="details" style="display: grid; place-items: center; height: 72px">
@@ -83,8 +70,8 @@ export class JourneyComponent extends LitElement {
                                             <div class="time">
                                                 ${
                                                     ind + 1 === 1 || (ind + 1) % 3 === 0 ?
-                                                            this.#distance(r.distance) :
-                                                            this.#distanceMeter(this._journeyConsumer.value?.data)
+                                                            Journey.distance(r.distance) :
+                                                            Journey.distanceMeter(this._journeyConsumer.value?.data)
                                                 } KM
                                             </div>
                                             <div class="details">

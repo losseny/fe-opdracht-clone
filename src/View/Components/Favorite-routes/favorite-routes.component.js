@@ -46,8 +46,6 @@ export class FavoriteRoutesComponent extends LitElement {
     }
 
     #tableDataEventHandler(event) {
-        console.log(event.detail.data.tableRowData)
-        console.log(this.dataSource)
         this.dialogData = event.detail.data.tableRowData
         this.dialog = this.renderRoot.lastElementChild.shadowRoot.querySelector('#dialog');
         this.dialog.showModal();

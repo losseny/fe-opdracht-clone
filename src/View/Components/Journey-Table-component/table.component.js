@@ -3,6 +3,7 @@ import {TableStyles} from "./table.styles.js";
 import {EvenEmitter} from "../../../Core/Infrastructure/Util/event-emitter.js";
 import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
 import {Journey} from "../../../Core/Models/journey.model.js";
+import {User} from "../../../Core/Models/user.model.js";
 
 export class TableComponent extends LitElement {
 
@@ -28,18 +29,6 @@ export class TableComponent extends LitElement {
         })
     }
 
-    address(routes) {
-        let index = 0;
-        if (routes.length > 1) {
-            index = routes.length - 1;
-        }
-
-        return {
-            departure: `${routes[0].locations[0].streetName} ${routes[0].locations[0].houseNumber}`,
-            destination: `${routes[index].locations[1].streetName} ${routes[index].locations[1].houseNumber}`,
-        }
-    }
-
 
     render() {
         let tableData = html`
@@ -55,8 +44,8 @@ export class TableComponent extends LitElement {
                             <td>${data.journeyType ?? "prive"}</td>
                             <td>${Journey.distanceMeter(data.routes)}</td>
                             <td>${data.emission}</td>
-                            <td>${this.address(data.routes).departure}</td>
-                            <td>${this.address(data.routes).destination}</td>
+                            <td>${User.address(data.routes).departure}</td>
+                            <td>${User.address(data.routes).destination}</td>
                             <td>${data.favorite ? '✅' : '❌' }</td>
                         </tr>
                     `)

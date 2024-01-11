@@ -10,7 +10,7 @@ router.setRoutes([
         path: '/journey', component: 'journey-page',
         children: [
             {path: '/registration', component: 'journey-component'},
-            {path: '/transport', component: 'transport-option-component'},
+            {path: '/meta', component: 'journey-meta-component'},
             {path: '/location', component: 'location-component'},
             {path: '/detail', component: 'journey-detail-component'},
         ]
@@ -19,9 +19,8 @@ router.setRoutes([
         path: '/profile', component: 'profile-page',
         children: [
             {path: '/settings', component: 'profile-settings-component'},
-            {path: '/routes', component: 'route-component'},
+            {path: 'standard/routes', component: 'standard-route-component'},
             {path: '/favorites', component: 'favorite-routes-page'},
-
         ]
     },
 ]);

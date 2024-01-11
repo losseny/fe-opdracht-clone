@@ -70,7 +70,7 @@ export class JourneyDetailComponent extends LitElement {
     }
 
     #goBack() {
-        Router.go('/journey/location/bestemming')
+        Router.go('/journey/registration')
     }
 
     render() {
@@ -81,6 +81,7 @@ export class JourneyDetailComponent extends LitElement {
                 </card-component>
             `
         }
+
         return html`
             <card-component title="Reis Beweging Detail">
                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -106,10 +107,6 @@ export class JourneyDetailComponent extends LitElement {
                             <label>Retour</label>
                             <input type="checkbox" @click="${() => this.retour = !this.retour}">
                         </div>
-                    </div>
-                    <div>
-                        <div>123 KM</div>
-                        <div>23234 CO2</div>
                     </div>
                 </div>
                 <div class="button-wrapper" slot="footer">

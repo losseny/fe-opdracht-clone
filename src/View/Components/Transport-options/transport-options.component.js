@@ -13,7 +13,6 @@ export class TransportOptionsComponent extends LitElement {
     constructor() {
         super();
         this.emitter = new EvenEmitter(this);
-
     }
 
     connectedCallback() {

@@ -17,47 +17,29 @@ export class LocationComponent extends LitElement {
             zipCode: {type: String},
             houseNumber: {type: String},
             addition: {type: String},
-            routeLocation: {type: Object},
+            routeDetail: {type: Object},
         }
     }
+
     constructor() {
         super();
         this.emitter = new EvenEmitter(this);
-        this._appConsumer = new ContextConsumer(this, {context: AppContexts.appContext});
         this._journeyConsumer = new ContextConsumer(this, {context: AppContexts.journeyContext});
     }
 
     connectedCallback() {
         super.connectedCallback();
-        this.addEventListener(EventKeys.VEHICLE_OPTION_EVENT_KEY, this.#vehicleChangedEventHandler)
         this.addEventListener(EventKeys.INPUT_CHANGED_KEY, this.#inputEventHandler)
-        this.addEventListener(EventKeys.SELECT_CHANGED_KEY, this.#selectChangedEventHandler)
-
+        this.routeDetail = this._journeyConsumer.value
     }
 
     disconnectedCallback() {
-        this.removeEventListener(EventKeys.VEHICLE_OPTION_EVENT_KEY, this.#vehicleChangedEventHandler);
         this.removeEventListener(EventKeys.INPUT_CHANGED_KEY, this.#inputEventHandler)
-        this.removeEventListener(EventKeys.SELECT_CHANGED_KEY, this.#selectChangedEventHandler)
-
-
         super.disconnectedCallback();
     }
 
-    #routesMapper() {
-        return this._appConsumer.value?.user?.routes.map(r => r.routeName);
-    }
-
-    #vehicleChangedEventHandler(event) {
-        this.transport = event.detail.data.transport;
-    }
-
     #goBack() {
-        if (this.title === 'vertrek') {
-            Router.go('/journey/transport')
-        } else {
-            Router.go('/journey/location/vertrek')
-        }
+        Router.go('/journey/registration')
     }
 
     #inputEventHandler(event) {
@@ -77,12 +59,12 @@ export class LocationComponent extends LitElement {
 
     #locationEvent() {
         const location = new Location({
-            streetName: this.routeLocation?.streetName ?? this.streetName,
-            city: this.routeLocation?.city ?? this.city,
-            zipCode: this.routeLocation?.zipCode ?? this.zipCode,
-            houseNumber: this.routeLocation?.houseNumber ?? this.houseNumber,
-            addition: this.routeLocation?.addition ?? this.addition,
-            transport: this.routeLocation?.transport ?? this.transport,
+            streetName: this.routeDetail?.routeLocation?.streetName ?? this.streetName,
+            city: this.routeDetail?.routeLocation?.city ?? this.city,
+            zipCode: this.routeDetail?.routeLocation?.zipCode ?? this.zipCode,
+            houseNumber: this.routeDetail?.routeLocation?.houseNumber ?? this.houseNumber,
+            addition: this.routeDetail?.routeLocation?.addition ?? this.addition,
+            transport: this.routeDetail?.transport ?? this.transport,
         })
         this.emitter.eventKey = EventKeys.LOCATION_EVENT_KEY;
         this.emitter.emit({
@@ -90,26 +72,16 @@ export class LocationComponent extends LitElement {
         })
     }
 
-    #selectChangedEventHandler(event) {
-        this.routeLocation = this._appConsumer.value?.user.routes.find(r => {
-            return event.detail.data.change.option.split('\"')[0] === r.routeName
-        }).detail;
-
-        this.requestUpdate()
-    }
-
-
     render() {
         return html`
             <div>
                 <div>
                     <route-location-component
-                            streetName="${this.routeLocation?.streetName}"
-                            city="${this.routeLocation?.city}"
-                            addition="${this.routeLocation?.addition}"
-                            houseNumber="${this.routeLocation?.houseNumber}"
-                            zipCode="${this.routeLocation?.zipCode}"
-                            .routeOptions="${this.#routesMapper()}"
+                            streetName="${this.routeDetail?.routeLocation?.streetName}"
+                            city="${this.routeDetail?.routeLocation?.city}"
+                            addition="${this.routeDetail?.routeLocation?.addition}"
+                            houseNumber="${this.routeDetail?.routeLocation?.houseNumber}"
+                            zipCode="${this.routeDetail?.routeLocation?.zipCode}"
                     >
                         <div class="button-wrapper" slot="footer">
                             <button-component @click="${this.#goBack}">

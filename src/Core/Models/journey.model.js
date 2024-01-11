@@ -17,6 +17,13 @@ export class Journey extends Base {
         return Journey.distanceMeter(this.routes)
     }
 
+    static distance(routes) {
+        if (!routes) {
+            return 0;
+        }
+        return routes.distance ?? 0
+    }
+
     static distanceMeter(routes) {
         if (!routes) {
             return 0;

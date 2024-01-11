@@ -3,7 +3,7 @@ import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
 import {EvenEmitter} from "../../../Core/Infrastructure/Util/event-emitter.js";
 import {Router} from "@vaadin/router";
 
-export class RouteComponent extends LitElement {
+export class StandardRouteComponent extends LitElement {
     static get properties() {
         return {
             style: { type: String },
@@ -21,6 +21,7 @@ export class RouteComponent extends LitElement {
         super();
         this.emitter = new EvenEmitter(this)
     }
+
     connectedCallback() {
         super.connectedCallback();
         this.addEventListener(EventKeys.INPUT_CHANGED_KEY, this.#inputEventHandler)
@@ -28,7 +29,6 @@ export class RouteComponent extends LitElement {
 
     disconnectedCallback() {
         this.removeEventListener(EventKeys.INPUT_CHANGED_KEY, this.#inputEventHandler);
-
         super.disconnectedCallback();
     }
 
@@ -74,6 +74,7 @@ export class RouteComponent extends LitElement {
             <route-location-component style="width: fit-content; height: fit-content; padding: 1rem">
                 <div class="input-wrap">
                     <input-component id="routeName" placeholder="Route Naam" name="routeName">
+                        <span slot="label">Naam</span>
                     </input-component>
                 </div>
                 <div class="button-wrapper" slot="footer">
@@ -88,4 +89,4 @@ export class RouteComponent extends LitElement {
         `
     }
 }
-window.customElements.define('route-component', RouteComponent);
+window.customElements.define('standard-route-component', StandardRouteComponent);

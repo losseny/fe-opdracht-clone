@@ -29,7 +29,8 @@ export class HomePage extends LitElement {
         task: async ([], {signal}) => {
             const [todayEmissions, monthEmissions, yearEmissions] = await this.emissionService.calculateEmissionStatistics();
 
-            const [today, month, year] = await Promise.all([todayEmissions, monthEmissions, yearEmissions].map(emission => emission.result));
+            const [today, month, year] = await Promise.all([todayEmissions, monthEmissions, yearEmissions]
+                .map(emission => emission.result));
 
             return [
                 { key: 'Vandaag', result: today },

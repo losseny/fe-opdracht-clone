@@ -1,7 +1,7 @@
 import {html, LitElement} from "lit";
 import {InputStyles} from "./input.styles.js";
-import {EvenEmitter} from "../../../Core/Infrastructure/Util/event-emitter.js";
-import {EventKeys} from "../../../Core/Infrastructure/Util/app-key.env.js";
+import {EvenEmitter} from "../../../../Core/Infrastructure/Util/event-emitter.js";
+import {EventKeys} from "../../../../Core/Infrastructure/Util/app-key.env.js";
 
 export class InputComponent extends LitElement {
     static styles = InputStyles;

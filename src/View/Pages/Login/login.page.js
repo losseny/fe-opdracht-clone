@@ -1,4 +1,4 @@
-import {css, html, LitElement} from "lit";
+import {html, LitElement} from "lit";
 import {userServiceInstance} from "../../../Core/Services/user.service.js";
 import {LoginPageStyles} from './login.page.styles.js';
 import {Router} from "@vaadin/router";

@@ -23,7 +23,7 @@ export class HeaderComponent extends LitElement {
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/journey/transport">Registratie</a>
+                                <a class="nav-link active" aria-current="page" href="/journey">Registratie</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="/profile/settings">Profiel</a>
