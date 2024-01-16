@@ -7,7 +7,7 @@ import {CardComponent} from "/src/View/Components/_Shared/Card-Component/card.co
 import {ButtonComponent} from "/src/View/Components/_Shared/Button-Component/button.component.js";
 import {InputComponent} from "/src/View/Components/_Shared/Input-Component/input.component.js";
 import {JourneyPage} from "/src/View/Pages/Journey/journey.page.js";
-import {TransportOptionsComponent} from "/src/View/Components/Transport-options/transport-options.component.js";
+import {TransportOptionsComponent} from "/src/View/Components/Transport-Options-Component/transport-options.component.js";
 import {JourneyComponent} from "/src/View/Components/Journey-Component/journey.component.js";
 import {LocationComponent} from "/src/View/Components/Location-Component/location.component.js";
 import {RouteLocationComponent} from "/src/View/Components/Route-Location-Component/route-location.component.js";
